@@ -36,7 +36,6 @@ void reduce(int numerator, int denominator, int* reduced_numerator, int* reduced
         {
             *reduced_numerator /= numerator;
             *reduced_denominator /= numerator;
-            printf("In lowest terms: %d/%d\n", *reduced_numerator, *reduced_denominator);
             return;
         }
         else
