@@ -1,4 +1,4 @@
-/* Description: Reduces a fraction to the lowest terms.
+/* Description: Reduces a fraction to the lowest terms using pointers.
 ** Source: C Programming A Modern Approach
 */
 
