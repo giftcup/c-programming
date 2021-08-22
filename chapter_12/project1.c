@@ -4,11 +4,11 @@
 
 #define N 50
 
-void reversal(int arr[N]);
+void reversal(char* arr);
 
 int main(void)
 {
-    int arr[N];
+    char arr[N];
 
     printf("Enter a message: ");
     reversal(arr);
@@ -16,17 +16,19 @@ int main(void)
     return 0;
 }
 
-void reversal(int arr[N])
+void reversal(char* arr)
 {
-    int i = 0;
+    char* ptr;
     char ch;
 
-    while ((ch = getchar()) != '\n' && i < N)
-        arr[i++] = ch;
-
-    while (i >= 0)
+    ptr = arr;
+    while ((ch = getchar()) != '\n' && ptr < arr + N)
     {
-        putchar(arr[i--]);
+        *ptr++ = ch;
+    }
+    while (ptr >= arr)
+    {
+        putchar(*ptr--);
     }
     printf("\n");
 }
