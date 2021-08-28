@@ -35,7 +35,7 @@ bool palindrome(char* arr)
     }
     
     int j = 0;
-    while (j < i)
+    while (j < i/2)
     {
         if (arr[j] != arr[i-j-1])
             return false;
