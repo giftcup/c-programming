@@ -6,14 +6,15 @@
 
 #define N 100
 
-bool palindrome(char* arr);
+bool palindrome(char* message);
 
 int main(void)
 {
-    char arr[N];
+    char message[N];
+    bool pal;
 
     printf("Enter a message: ");
-    bool pal = palindrome(arr);
+    pal = palindrome(message);
 
     if (pal)
         printf("Palindrome\n");
@@ -23,7 +24,7 @@ int main(void)
     return 0;
 }
 
-bool palindrome(char* arr)
+bool palindrome(char* message)
 {
     int i = 0;
     char ch;
@@ -31,13 +32,13 @@ bool palindrome(char* arr)
     while ((ch = getchar()) != '\n' && i <  N)
     {
         if(isalpha(ch))
-            arr[i++] = tolower(ch);
+            message[i++] = tolower(ch);
     }
     
     int j = 0;
     while (j < i/2)
     {
-        if (arr[j] != arr[i-j-1])
+        if (message[j] != message[i-j-1])
             return false;
         j++;
     }
