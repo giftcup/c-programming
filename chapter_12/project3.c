@@ -26,7 +26,7 @@ void reversal(char* arr)
         *(arr + i) = ch;
         i++;
     }
-    while (i > N)
+    while (i >= 0)
     {
         putchar(*(arr + i));
         i--;
