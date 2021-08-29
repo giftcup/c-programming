@@ -71,10 +71,9 @@ char* reverse(char* arr, char* rev, char* ptr_ins)
         *ptr_rev = *ptr_ins--;
         ptr_rev++;
     }
-    
-    /* why does it work?? */
     ptr_rev--;
-    return ptr_rev--;
+
+    return ptr_rev;
 }
 
 /* compare: checks `arr` and `rev` if all its *
