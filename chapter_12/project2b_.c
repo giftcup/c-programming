@@ -25,6 +25,9 @@ int main(void)
     return 0;
 }
 
+/* get_message: Reads message from user and stores in
+**              array `messsage`.
+*/
 char* get_message(char* message)
 {
     char ch;
@@ -38,6 +41,12 @@ char* get_message(char* message)
     return ptr;
 }
 
+/* palindrome: Checks the characters of the message from
+**              left-to-right and right-to-left if they
+**              are the same.
+**              returns true if the are and false other-
+**              wise.
+*/
 bool palindrome(char* message, char* ptr)
 {
      
