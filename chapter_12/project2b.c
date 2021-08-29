@@ -14,6 +14,7 @@ int main(void)
 {
     char arr[N];
     char rev[N];
+    bool palindrome;
 
     printf("Enter a message: ");
     /* Save the message in first array */
@@ -21,9 +22,8 @@ int main(void)
     /* Put the reversed elements in another array */
     char* ptr_rev = reverse(arr, rev, ptr_ins);
     /* Checks if it's a palindrome */
-    printf("%p\n", ptr_rev);
 
-    bool palindrome = compare(arr, rev, ptr_ins, ptr_rev);
+    palindrome = compare(arr, rev, ptr_ins, ptr_rev);
 
     if (palindrome)
         printf("Palindrome\n");
@@ -48,13 +48,7 @@ char* insert(char* arr){
         if (c >= 'A' && c <= 'z')
             *ptr_ins++ = tolower(c);
     }
-    char* k = ptr_ins--;
-    printf("%p\n", ptr_ins);
-
-    while (k >= arr)
-    {
-        putchar(*k--);
-    }putchar('\n');
+    ptr_ins--;
 
     return ptr_ins;
 }
@@ -72,22 +66,14 @@ char* reverse(char* arr, char* rev, char* ptr_ins)
 {
     char* ptr_rev = rev;
 
-    printf("%p\n", ptr_ins);
     while (ptr_ins >= arr)
     {
         *ptr_rev = *ptr_ins--;
         ptr_rev++;
     }
-
-    printf("%p\n", ptr_rev);
     
     /* why does it work?? */
-    char* k = ptr_rev--;
-
-    while (k >= rev)
-    {
-        putchar(*k--);
-    }putchar('\n');
+    ptr_rev--;
     return ptr_rev--;
 }
 
@@ -99,16 +85,11 @@ bool compare(char* arr, char* rev, char* ptr_ins, char* ptr_rev)
 {
     while (ptr_ins >= arr)
     {
-        putchar(*ptr_ins);
-        putchar(':');
-        putchar(*ptr_rev);
-        putchar('\n');
         if (*ptr_ins != *ptr_rev)
             return false;
         ptr_ins --;
         ptr_rev --;
     }
-    putchar('\n');
 
     return true;
 }
