@@ -11,8 +11,9 @@ int read_line(char str[], int n);
 int main(void)
 {
     char reminders[MAX_REMIND][MSG_LEN + 3];
-    char day_str[3], msg_str[MSG_LEN + 1];
+    char day_str[15], msg_str[MSG_LEN + 1];
     int day, i, j, num_remind = 0;
+    int hour, min, month;
 
     for(;;)
     {
@@ -22,9 +23,10 @@ int main(void)
             break;
         }
 
-        printf("Enter day 24-hour time and reminder: ");
-        scanf("%2d", &day);
-        if (day == 0)
+        printf("Enter month and day (month/day) 24-hour time (hour:min) and reminder: ");
+        scanf("%2d/%2d", &month, &day);
+        scanf("%2d:%2d", &hour, &min); // max two numbers
+        if (month == 0 || day == 0)
             break;
         // task (a)
         if (day < 0 || day > 31)
@@ -32,7 +34,7 @@ int main(void)
             printf("Valid days are only from 0 - 31\n");
             continue;
         }
-        sprintf(day_str, "%2d", day); // writes the day read into the string `day_str`
+        sprintf(day_str, "%.2d\t%.2d\t%.2d:%.2d\t", month, day, hour, min); // writes the day read into the string `day_str`
         read_line(msg_str, MSG_LEN);
 
         for (i = 0; i < num_remind; i++)
@@ -47,7 +49,7 @@ int main(void)
         num_remind++;
     }
 
-    printf("\nDay Reminder\n");
+    printf("\nMonth\tDay\tTime\tReminder\n");
     for (i = 0; i < num_remind; i++)
         printf(" %s\n", reminders[i]);
 
