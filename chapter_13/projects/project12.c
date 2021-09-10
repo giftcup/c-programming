@@ -10,42 +10,33 @@ int read_word(char *word, int n);
 
 int main(void)
 {
-    char sentence[NUM_WORDS][WORD_LEN + 1];
-    char word[WORD_LEN + 1];
-    int  check, i = 0;
+    char sentence[NUM_WORDS][WORD_LEN + 1], stop;
+    int ch, i, j;
 
+    i = 0, j = 0;
     printf("Enter a sentence: ");
-    for (;;)
+    while ((ch = getchar()) != '\n' && i < NUM_WORDS)
     {
-        check = read_word(word, WORD_LEN);
-        strcat(sentence[i++], word);
-        if (check == 0)
-            break;
-    }
-
-    for (int j = i - 1; j >= 0; j--)
-        printf("%s ", sentence[j]);
-    printf("\n");
-    
-    return 0;
-}
-
-int read_word(char *word, int n)
-{
-    int ch, i, check;
-
-    i = 0;
-    while ((ch = getchar()) != ' ')
-    {
-        if (ch == '\n')
+        if (ch == '.' || ch == '!' || ch == '?')
         {
-            word[i] = '\0';
-            return 0;
+            stop = ch;
+            break;
         }
-        if (i < n)
-            word[i++] = ch;
+        if (ch == ' ')
+        {
+            sentence[i][j] = '\0';
+            i++;
+            j = 0;
+            continue;
+        }
+
+        sentence[i][j++] = ch;
     }
-    word[i] = '\0';
-    
-    return i;
+    sentence[i][j] = '\0';
+
+    for (i; i >= 0; i--)
+        printf("%s ", sentence[i]);
+    printf("%c\n", stop);
+
+    return 0;
 }
