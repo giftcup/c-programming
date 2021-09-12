@@ -59,6 +59,8 @@ void reverse_name(char *name)
         name_ptr++;
     while (*name_ptr && *name_ptr != '\n')
         printf("%c", *name_ptr++);
+    while (*name_ptr == ' ') 
+        ;
     
     printf(", %c.\n", first_name_initial);
 }
