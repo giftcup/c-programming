@@ -21,7 +21,7 @@ int main(void)
     read_line(name, LEN);
     reverse_name(name);
 
-    printf("%s\n", name);
+    //printf("%s\n", name);
     
 }
 
@@ -48,13 +48,31 @@ int read_line(char *name, int size)
 */
 void reverse_name(char *name)
 {
+    char *name_ptr = name, first_name_initial;
+
+    while (*name_ptr == ' ') 
+        name_ptr++;
+    first_name_initial = *name_ptr++;
+    while(*name_ptr && *name_ptr++ != ' ')
+        ;
+    while (*name_ptr == ' ') 
+        name_ptr++;
+    while (*name_ptr && *name_ptr != '\n')
+        printf("%c", *name_ptr++);
+    
+    printf(", %c.\n", first_name_initial);
+}
+
+/*void reverse_name(char *name)
+{
     char firstname[IN_LEN + 1], lastname[IN_LEN + 1];
     
     sscanf(name, "%s %s", firstname, lastname);
-    name[0] = '\0';
-    strcat(name, lastname);
-    strcat(name, ", ");
-    strcat(name, firstname);
-    strcat(name, ".");
+    printf("%s %s\n", firstname, lastname);
+    memset(name, 0, strlen(name));
+
+    sprintf(name, "%s, %c.\n", lastname, firstname[0]);
+    printf("%s\n", name);
 
 }
+*/
