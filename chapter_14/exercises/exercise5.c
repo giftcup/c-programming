@@ -14,9 +14,9 @@ int main(void)
     char s[5];
     int i;
 
-    strcpy(s, "abcd");
+    strcpy(s, "a5c7");
     i = 0;
-    putchar(TOUPPER(s[++i]));
+    putchar(TOUPPER(s[i]));
     putchar('\n');
 
     strcpy(s, "0123");
