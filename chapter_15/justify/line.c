@@ -44,11 +44,15 @@ void write_line(void)
             putchar(line[i]);
         else
         {
-            spaces_to_insert = extra_spaces / (num_words - 1);
+            spaces_to_insert =  num_words / (extra_spaces + 1);
+            if (extra_spaces == 0)
+                spaces_to_insert = 0;
+            // printf("spaces to insert after word %d: %d\n", i, spaces_to_insert);
             for (j = 1; j <= spaces_to_insert + 1; j++)
                 putchar(' ');
-            extra_spaces -= spaces_to_insert;
+            extra_spaces += spaces_to_insert;
             num_words--;
+            // printf("Extra spaces: %d && num_words: %d\n", extra_spaces, num_words);
         }
     }
     putchar('\n');
