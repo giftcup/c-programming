@@ -21,8 +21,9 @@ int read_word(char *word, int len)
             word[pos++] = ch;
         ch = read_char();
     }
+    word[pos] = '\0';
+    
     if (pos > len - 1)
-        word[len] = '*';
-    word[len + 1] = '\0';
+        word[len - 1] = '*';
     return pos;
 }
