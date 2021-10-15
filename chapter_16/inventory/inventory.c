@@ -33,6 +33,7 @@ int main(void)
     {
         printf("\nEnter operation code: ");
         scanf(" %c", &opcode);
+        fflush(stdin);
         // while (getchar() != '\n') 
         //     ;
 
