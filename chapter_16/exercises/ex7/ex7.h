@@ -1,13 +1,6 @@
 #include <stdio.h>
 
-struct fracture {
+struct fraction {
     int numerator;
     int denominator;
 };
-
-int main(void)
-{
-    return 0;
-}
-
-void
