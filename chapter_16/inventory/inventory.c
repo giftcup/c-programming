@@ -1,22 +1,8 @@
-#include <stdio.h>
 #include "readline.h"
-
-#define NAME_LEN 20
-#define MAX_PARTS 100
-
-struct part {
-    int number;
-    char name[NAME_LEN + 1];
-    int on_hand;
-}inventory[MAX_PARTS];
-
-int num_parts = 0;
-
-int find_part(int number);
-void insert(void);
-void search(void);
-void update(void);
-void print(void);
+#include "inventory.h"
+#include "insert.h"
+#include "search.h"
+#include "update.h"
 
 /*
  * main: Prompts the user to enter an operation code,
@@ -28,7 +14,7 @@ void print(void);
 int main(void)
 {
     char opcode;
-
+    num_parts = 0;
     for (;;)
     {
         printf("\nEnter operation code: ");
@@ -74,84 +60,6 @@ int find_part(int number)
     return -1;
 }
 
-/*
- * insert: Prompts the user for information about a new
- *         part and then inserts the part into the
- *         database. Prints an error message ad returns 
- *         prematurely if the part already exists or the
- *         database is full.
- */
-void insert(void)
-{
-    int part_number;
-
-    if (num_parts == MAX_PARTS)
-    {
-        printf("Database is full; can't add more parts.\n");
-        return;
-    }
-
-    printf("Enter part number: ");
-    scanf("%d", &part_number);
-
-    if (find_part(part_number) >= 0)
-    {
-        printf("Part already exists.\n");
-        return;
-    }
-
-    inventory[num_parts].number = part_number;
-    printf("Enter part name: ");
-    read_line(inventory[num_parts].name, NAME_LEN);
-    printf("Enter quantity on hand: ");
-    scanf("%d", &inventory[num_parts].on_hand);
-    num_parts++;
-}
-
-/*
- * search: Prompts the userto enter a part number, 
- *         then looks up the part in the database. If the part
- *         exists, print the name and the quantity on hand; 
- *         if not, printd an error message.
-*/
-void search(void)
-{
-    int i, number;
-
-    printf("Enter part number: ");
-    scanf("%d", &number);
-    i =  find_part(number);
-    if (i >= 0)
-    {
-        printf("Part name: %s\n", inventory[i].name);
-        printf("Quantity on hand: %d\n", inventory[i].on_hand);
-    }
-    else
-        printf("Part not found.\n");
-}
-
-/*
- * update: Prompts the user to enter a part number.
- *         Prints an error message if the part doesn't
- *         exist; otherwise, prompts the user to enter
- *         change in quantity on hand and update the
- *         database.
- */
-void update(void)
-{
-    int i, number, change;
-
-    printf("Enter part number: ");
-    scanf("%d", &number);
-    i = find_part(number);
-    if (i >= 0) {
-        printf("Enter change in quantity on hand: ");
-        scanf("%d", &change);
-        inventory[i].on_hand += change;
-    }
-    else
-        printf("Part not found.\n");
-}
 
 /*
  * print: Prints a listing of all parts in the database,
