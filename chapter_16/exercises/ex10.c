@@ -12,6 +12,7 @@ struct rectangle {
 };
 
 int area(struct rectangle r);
+struct point center(struct rectangle r);
 
 int main(void)
 {
