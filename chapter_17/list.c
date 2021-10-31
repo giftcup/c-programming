@@ -33,7 +33,6 @@ struct node* add_to_list(struct node* top, int value)
 
     new_node->value = value;
     new_node->next = top;
-    // top = new_node;
 
     return new_node;
 }
@@ -79,5 +78,13 @@ struct node* delete_from_list(struct node* list, int n)
          cur != NULL && cur->value != n;
          prev = cur, cur = cur->next)
     ;
-    
+
+    if (cur == NULL)
+        return list;                /* n was not found */
+    if (prev == NULL)
+        list = list->next;          /* n is the first node */ //why next?
+    else
+        prev->next = cur->next;     /* n is in some other node */
+    free(cur);
+    return list;
 }
