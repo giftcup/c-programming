@@ -6,7 +6,7 @@ typedef struct list {
     struct list *next_node;
 } List;
 
-List* add_to_end(List* tracker, int number);
+void add_to_end(List** tracker, int number);
 
 int main(void)
 {
@@ -18,12 +18,11 @@ int main(void)
     {
         if (head == NULL)
         {
-            head = add_to_end(head, i);
+            add_to_end(&head, i);
             tracker = head;
             continue;
         }
-        tracker->next_node = add_to_end(tracker, i);
-        tracker = tracker->next_node;
+        add_to_end(&tracker, i);
     }
 
     for (; head != NULL; head = head->next_node)
@@ -36,7 +35,7 @@ int main(void)
     return 0;
 }
 
-List* add_to_end(List* tracker, int number)
+void add_to_end(List** tracker, int number)
 {
     List *new_node;
     new_node = (List*) malloc(sizeof(List));
@@ -44,21 +43,19 @@ List* add_to_end(List* tracker, int number)
     if (new_node == NULL)
     {
         printf("memory allocation failed in add_to_end\n");
-        return NULL;
+        return;
     }
     new_node->number = number;
 
-    if (tracker == NULL)
+    if (*tracker == NULL)
     {
-        tracker = new_node;
+        *tracker = new_node;
     }
 
     else
     {
-        tracker->next_node = new_node;
-        tracker = new_node;
+        (*tracker)->next_node = new_node;
+        *tracker = new_node;
     }
-    tracker->next_node = NULL;
-
-    return tracker;
+    (*tracker)->next_node = NULL;
 }
