@@ -9,7 +9,7 @@ typedef struct list {
 void add_to_end(List** tracker, int number);
 void delete_node(List** tracker, int number);
 void print_node(List* head);
-// void bubble_sort(List** tracker);
+void bubble_sort(List** tracker);
 void swap(List** head);
 
 int main(void)
@@ -34,7 +34,14 @@ int main(void)
         add_to_end(&tracker, number);
     }
     print_node(head);
-    swap(&head);
+    // for (List* ptr = head; ptr->next_node != NULL && ptr != NULL; ptr = ptr->next_node)
+    List* ptr = head;
+    printf("%d %d\n", head->number, ptr->number);
+    ptr = ptr->next_node;
+    printf("%d %d\n", head->number, ptr->number);
+        // swap(&head);
+    tracker = head;
+    bubble_sort(&tracker);
     print_node(head);
 
     return 0;
@@ -88,12 +95,25 @@ void print_node(List* head)
         printf("NULL\n");
 }
 
-void swap(List** head)
+void bubble_sort(List** tracker)
+{
+    List *next;
+
+    for (next = (*tracker)->next_node; 
+         next != NULL && *tracker != NULL; 
+         *tracker = next, next = (*tracker)->next_node)
+    {
+        if ((*tracker)->number > next->number)
+            swap(tracker);
+    }
+}
+
+void swap(List** tracker)
 {
     List* next;
 
-    next = (*head)->next_node;
-    (*head)->next_node = next->next_node;
-    next->next_node = (*head);
-    (*head) = next;
+    next = (*tracker)->next_node;
+    (*tracker)->next_node = next->next_node;
+    next->next_node = (*tracker);
+    (*tracker) = next;
 }
