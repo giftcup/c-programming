@@ -11,6 +11,7 @@ void delete_node(List** tracker, int number);
 void print_node(List* head);
 void bubble_sort(List** tracker);
 void swap(List** head);
+void print_reverse(List* head);
 
 int main(void)
 {
@@ -43,6 +44,7 @@ int main(void)
     tracker = head;
     bubble_sort(&tracker);
     print_node(head);
+    print_reverse(head);
 
     return 0;
 }
@@ -116,4 +118,13 @@ void swap(List** tracker)
     (*tracker)->next_node = next->next_node;
     next->next_node = (*tracker);
     (*tracker) = next;
+}
+
+void print_reverse(List* head)
+{
+    if (head == NULL) {
+        return;
+    }
+    print_reverse(head->next_node);
+    printf("%d ", head->number);
 }
