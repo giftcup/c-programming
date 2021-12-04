@@ -8,6 +8,7 @@ typedef struct list {
 
 void add_to_end(List** tracker, int number);
 void delete_node(List** tracker, int number);
+void delete(List* head, int number);
 void print_node(List* head);
 void bubble_sort(List** tracker);
 void swap(List** head);
@@ -87,6 +88,17 @@ void delete_node(List** tracker, int number)
         prev->next_node = cur->next_node;
 
     free(cur);
+}
+
+/**
+ * @brief Deletes a node from a list using one pointer
+ * @param head pointer to the head of the list
+ * @param number element at node to be deleted
+ * @return pointer to the head
+ */ 
+void delete(List* head, int number) 
+{
+    List *tracker = head;
 }
 
 void print_node(List* head)
