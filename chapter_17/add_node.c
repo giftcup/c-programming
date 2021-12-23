@@ -8,7 +8,7 @@ typedef struct list {
 
 void add_to_end(List** tracker, int number);
 void delete_node(List** tracker, int number);
-void delete(List* head, int number);
+List* delete(List* head, int number);
 void print_node(List* head);
 void bubble_sort(List** tracker);
 void swap(List** head);
@@ -36,16 +36,18 @@ int main(void)
         add_to_end(&tracker, number);
     }
     print_node(head);
-    // for (List* ptr = head; ptr->next_node != NULL && ptr != NULL; ptr = ptr->next_node)
-    List* ptr = head;
-    printf("%d %d\n", head->number, ptr->number);
-    ptr = ptr->next_node;
-    printf("%d %d\n", head->number, ptr->number);
-        // swap(&head);
-    tracker = head;
-    bubble_sort(&tracker);
+    head = delete(head, 5);
     print_node(head);
-    print_reverse(head);
+    // for (List* ptr = head; ptr->next_node != NULL && ptr != NULL; ptr = ptr->next_node)
+    // List* ptr = head;
+    // printf("%d %d\n", head->number, ptr->number);
+    // ptr = ptr->next_node;
+    // printf("%d %d\n", head->number, ptr->number);
+    //     // swap(&head);
+    // tracker = head;
+    // bubble_sort(&tracker);
+    // print_node(head);
+    // print_reverse(head);
 
     return 0;
 }
@@ -96,9 +98,24 @@ void delete_node(List** tracker, int number)
  * @param number element at node to be deleted
  * @return pointer to the head
  */ 
-void delete(List* head, int number) 
+List* delete(List* head, int number) 
 {
     List *tracker = head;
+
+    if (head->number == number) {
+        head = head->next_node;
+        free(tracker);
+        return head;
+    }
+
+    for (; tracker->next_node != NULL; 
+        tracker = tracker->next_node) {
+        if (tracker->next_node->number == number) {
+            tracker->next_node = tracker->next_node->next_node;
+            break;
+        }    
+    }
+    return head;
 }
 
 void print_node(List* head)
