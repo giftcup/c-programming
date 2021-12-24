@@ -17,6 +17,7 @@ void insert(void);
 void search(void);
 void update(void);
 void print(void);
+int compare_parts(const void *p, const void *q);
 
 /*
 ** main: Prompts the user to enter an operation code,
@@ -172,11 +173,25 @@ void update(void)
 **        quantity on hand. Part numbers will appear in
 **        ascending order.
 */
-void print(void)
-{
+void print(void) {
     struct part *p;
     printf("Part Number     Part Name                       "
            "Quantity on Hand\n");
     for (p = inventory; p != NULL; p=p->next)
         printf("%7d         %-25s%11d\n", p->number, p->name, p->on_hand);
+}
+
+/**
+ * compare_parts: Compares elements of the invetory 
+ * array
+ */ 
+int compare_parts(const void *p, const void *q) {
+    if (((struct part*) p) -> number < 
+        ((struct part*) q)->number)
+      return -1;
+    else if (((struct part*)p)->number > 
+        ((struct part *)q)->number)
+      return 1;
+    else
+      return 0;
 }
