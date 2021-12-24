@@ -9,6 +9,7 @@ typedef struct list {
 void add_to_end(List** tracker, int number);
 void delete_node(List** tracker, int number);
 List* delete(List* head, int number);
+void delete_list (List** head);
 void print_node(List* head);
 void bubble_sort(List** tracker);
 void swap(List** head);
@@ -37,6 +38,8 @@ int main(void)
     }
     print_node(head);
     head = delete(head, 5);
+    print_node(head);
+    delete_list(&head);
     print_node(head);
     // for (List* ptr = head; ptr->next_node != NULL && ptr != NULL; ptr = ptr->next_node)
     // List* ptr = head;
@@ -116,6 +119,22 @@ List* delete(List* head, int number)
         }    
     }
     return head;
+}
+
+
+/**
+ * @brief Deletes all nodes from a linked list
+ * and releases the memory.
+ * @param head pointer to the first element of
+ * the list
+ * @return void
+ */ 
+void delete_list (List** head) {
+    List *p;
+    for (p = *head; *head != NULL; 
+        *head = (*head)->next_node, p = * head) {
+            free(p);
+    } 
 }
 
 void print_node(List* head)
