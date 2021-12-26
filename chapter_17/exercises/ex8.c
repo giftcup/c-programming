@@ -24,18 +24,19 @@ int main (void) {
     size_of_token = 1;
     token[0] = '\0';
 
-    while ((ch = getchar()) != '\n') {
-        if (ch == ' ') {
+    while ((ch = getchar())) {
+        if (ch == ' ' || ch =='\n') {
             head = malloc(sizeof(Stack) + sizeof(char) * strlen(token));
             strcpy(head->string, token);
             memset(token, 0, strlen(token));
             printf("%s\n", head->string);
+            if (ch == '\n') break;
             continue;
         } else {
             size_of_token++;
             token = realloc(token, sizeof(char) * size_of_token);
             strncat(token, &ch, 1);
-            printf("%s\n", token);
+            // printf("%s\n", token);
         }
     }
 }
