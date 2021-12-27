@@ -14,30 +14,61 @@ int is_empty(void);
 int is_full(void);
 void push(int i);
 int pop(void);
+char select_operation(char str[]);
 
-int main (void) {
+int main(void) {
+    Stack *head;
     char *token, ch;
     int size_of_token;
-    Stack *head;
+    char operation;
 
     token = malloc(sizeof(char) * 1);
     size_of_token = 1;
     token[0] = '\0';
 
+    printf("Enter expression in reverse polish notation: ");
+
     while ((ch = getchar())) {
-        if (ch == ' ' || ch =='\n') {
-            head = malloc(sizeof(Stack) + sizeof(char) * strlen(token));
+        if (ch == ' ' || ch == '\n') {
+            head = malloc(sizeof(Stack) + size_of_token);
             strcpy(head->string, token);
+            operation = select_operation(head->string);
+            switch(operation) {
+                case 'r':
+                    pop();
+                    break;
+                case 'p':
+                    push(atoi(head->string));
+            }
+            if (ch == '\n') {
+                break;
+            }   
             memset(token, 0, strlen(token));
-            printf("%s\n", head->string);
-            if (ch == '\n') break;
             continue;
-        } else {
+        }
+        else {
             size_of_token++;
             token = realloc(token, sizeof(char) * size_of_token);
             strncat(token, &ch, 1);
-            // printf("%s\n", token);
         }
+    }
+    return 0;
+}
+
+char select_operation(char str[]) {
+
+    if (strlen(str) == 1 && !(isdigit(str[0]))) {
+        return 'r';
+    }
+    else {
+        return 'p';
     }
 }
 
+void push(int digit) {
+    printf("%d\n", digit);
+}
+int pop(void) {
+    printf("Hello\n");
+    return 0;
+}
