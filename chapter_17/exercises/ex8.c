@@ -4,20 +4,22 @@
 #include <string.h>
 
 typedef struct stack {
-    int token;
+    int number;
     struct stack *next;
-    char string[];
 } Stack;
 
-void make_empty(void);
+void make_empty(Stack **head);
 int is_empty(void);
 int is_full(void);
-void push(int i);
-int pop(void);
+void push(Stack **head, int num);
+void pop(Stack ** head, char op);
 char select_operation(char str[]);
+void allocate(Stack **node);
+void print_stack(Stack *node);
+int pop_num(Stack **head);
 
 int main(void) {
-    Stack *head;
+    Stack *head, tracker;
     char *token, ch;
     int size_of_token;
     char operation;
@@ -25,22 +27,22 @@ int main(void) {
     token = malloc(sizeof(char) * 1);
     size_of_token = 1;
     token[0] = '\0';
+    head = NULL;
 
     printf("Enter expression in reverse polish notation: ");
 
     while ((ch = getchar())) {
         if (ch == ' ' || ch == '\n') {
-            head = malloc(sizeof(Stack) + size_of_token);
-            strcpy(head->string, token);
-            operation = select_operation(head->string);
+            operation = select_operation(token);
             switch(operation) {
                 case 'r':
-                    pop();
+                    pop(&head, token[0]);
                     break;
                 case 'p':
-                    push(atoi(head->string));
+                    push(&head, atoi(token));
             }
             if (ch == '\n') {
+                make_empty(&head);
                 break;
             }   
             memset(token, 0, strlen(token));
@@ -52,7 +54,16 @@ int main(void) {
             strncat(token, &ch, 1);
         }
     }
+    print_stack(head);
     return 0;
+}
+
+void allocate(Stack **node) {
+    *node = malloc(sizeof(Stack));
+    if (*node == NULL) {
+        printf("memalloc failed in allocate\n");
+        exit(EXIT_FAILURE);
+    }
 }
 
 char select_operation(char str[]) {
@@ -65,10 +76,65 @@ char select_operation(char str[]) {
     }
 }
 
-void push(int digit) {
-    printf("%d\n", digit);
+void push(Stack **head, int num) {
+    Stack *new_node;
+
+    if (*head == NULL) {
+        allocate(head);
+        (*head)->number = num;
+        return;
+    }
+    allocate(&new_node);
+    new_node->number = num;
+    new_node->next = *head;
+    *head = new_node;
 }
-int pop(void) {
-    printf("Hello\n");
-    return 0;
+
+void pop(Stack ** head, char op) {
+    int num1, num2, result;
+    
+    num1 = pop_num(head);
+    num2 = pop_num(head);
+
+    switch (op) {
+        case '+':
+            result = num2 + num1;
+            break;
+        case '-':
+            result = num2 - num1;
+            break;
+        case '/':
+            result = num2 / num1;
+            break;
+        case '*':
+            result = num2 * num1;
+            break;
+        case '%':
+            result = num2 - num1;
+            break;
+    }
+    push(head, result);
+    printf("result: %d\n", (*head)->number);
+}
+
+int pop_num(Stack **head) {
+    Stack *temp = *head;
+    int num = (*head)->number;
+
+    (*head) = (*head)->next;
+    free(temp);
+    return num;
+}
+
+void make_empty(Stack **head) {
+    int final = pop_num(head);
+
+    printf ("final result: %d\n", final);
+}
+
+void print_stack(Stack *node) {
+    for (; node != NULL; node = node->next) {
+        printf("%d->", node->number);
+    }
+    printf("NULL\n");
 }
