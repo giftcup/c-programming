@@ -46,6 +46,8 @@ int main(void) {
                 break;
             }   
             memset(token, 0, strlen(token));
+            size_of_token = 1;
+            token = realloc(token, sizeof(char) * size_of_token);
             continue;
         }
         else {
