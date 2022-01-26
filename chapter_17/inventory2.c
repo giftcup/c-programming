@@ -90,7 +90,7 @@ void insert(void)
     new_node = malloc(sizeof(struct part));
     if (new_node == NULL)
     {
-        printf("Database id ful; can't add more parts.\n");
+        printf("Database is full; can't add more parts.\n");
         return;
     }
 
