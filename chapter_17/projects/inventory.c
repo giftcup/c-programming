@@ -5,7 +5,7 @@
 #include <ctype.h>
 
 #define NAME_LEN 25
-#define MAX_PARTS 2
+#define MAX_PARTS 10
 
 typedef struct part {
     int number;
@@ -22,6 +22,7 @@ void search(Part *inventory);
 void update(Part *inventory);
 void print(Part *inventory);
 int read_line(char str[], int n);
+int compare(const void *p, const void *q);
 
 /*
 ** main: Prompts the user to enter an operation code,
@@ -33,15 +34,16 @@ int read_line(char str[], int n);
 int main(void)
 {
     char code;
-    Part *inventory = (Part*) malloc(sizeof(Part) * MAX_PARTS);
+    Part *inventory = (Part*) calloc(MAX_PARTS, sizeof(Part));
 
     for(;;)
     {
         instructions();
         printf("Enter operation code: ");
         scanf(" %c", &code);
-        while (getchar() != '\n')       /* skips to end of line */
-            ;
+        fflush(stdin);
+        // while (getchar() != '\n')       /* skips to end of line */
+        //     ;
         switch (code) {
             case 'i': 
                 insert(inventory);
@@ -77,10 +79,9 @@ void instructions(void) {
 int read_line(char str[], int n) {
     int ch, i = 0;
 
-    while(ch != '\n' && ch != EOF) {
+    while((ch = getchar()) && (ch != '\n' && ch != EOF)) {
         if (i < n) 
             str[i++] = ch;
-        ch = getchar();
     }
     str[i] = '\0';
     return i;
@@ -117,10 +118,8 @@ void insert(Part *inventory)
 
     if (num_parts == max_size) {
         max_size += MAX_PARTS;
-        printf("Database is full; Adding more parts,\n");
-        inventory = realloc(inventory, sizeof(Part) * max_size);
-        printf("realloc size: %lu\n", sizeof(inventory));
-        
+        printf("Database is full; Adding more parts.\n");
+        inventory = realloc(inventory, sizeof(Part) * max_size);  
     }
 
     printf("Enter part number: ");
@@ -137,6 +136,7 @@ void insert(Part *inventory)
     read_line(inventory[num_parts].name, NAME_LEN);
     printf("Enter quatity on hand: ");
     scanf("%d", &inventory[num_parts].on_hand);
+    
     num_parts++;
 }
 
@@ -148,13 +148,13 @@ void insert(Part *inventory)
 */
 void search(Part *inventory)
 {
-    int number, i;
+    int number, pos;
 
     printf("Enter part number: ");
     scanf("%d", &number);
-    i = find_part(number, inventory);
-    if (i >= 0) {
-        printf("Part name: %s\n", inventory[i].name);
+    pos = find_part(number, inventory);
+    if (pos >= 0) {
+        printf("Part name: %s\n", inventory[pos].name);
     }
     else {
         printf("Part not found\n");
@@ -195,8 +195,13 @@ void update(Part *inventory)
 void print(Part *inventory) {
     int i;
 
-    printf("Part Number     Part Name                           \n");
+    qsort(inventory, num_parts, sizeof(Part), compare);
+    printf("\nPart Number     Part Name                   Quantity on Hand\n");
     for (i = 0; i < num_parts; i++) {
         printf("%7d         %-25s%11d\n", inventory[i].number, inventory[i].name, inventory[i].on_hand);
     }
 }
+
+int compare(const void *p, const void *q) {
+    return (((Part*)p)->number - ((Part*)q)->number);
+} 
