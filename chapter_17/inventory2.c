@@ -12,36 +12,42 @@ struct part {
 
 struct part *inventory = NULL;      /* points to first part */
 
+void instructions(void);
 struct part *find_part(int number);
 void insert(void);
 void search(void);
 void update(void);
 void print(void);
+void erase(void);
+int read_line(char str[], int n);
 int compare_parts(const void *p, const void *q);
 
-/*
-** main: Prompts the user to enter an operation code,
-**       then calls a funciton to perform the requested
-**       action. Repeats until the user enters the
-**       command 'q'. Prints an error message if the user
-**       enters an illegal code.
-*/
+/**
+ * @brief Calls a function to be performed on the inventory
+ *        based on what command the user enters.
+ * @param void
+ */
 int main(void)
 {
     char code;
 
     for(;;)
     {
+        instructions();
+
         printf("Enter operation code: ");
         scanf(" %c", &code);
-        while (getchar() != '\n')       /* skips to end of line */
-            ;
+        fflush(stdin);
+
         switch (code) {
             case 'i': 
                 insert();
                 break;
             case 's':
                 search();
+                break;
+            case 'e':
+                erase();
                 break;
             case 'p':
                 print();
@@ -55,12 +61,48 @@ int main(void)
     }
 }
 
-/*
-** find_part: Looks up a part number in the inventory
-**            list. Returns a pointer to the node
-**            containing the part number; if the part
-**            number is not found, returns NULL.
-*/
+/**
+ * @brief instructions prints out the instructions to the
+ *        user.
+ * @param void
+ */ 
+void instructions(void) {
+    printf("\n++++++++++++++++++++++++++++\n"
+           "+++++   INSTRUCTIONS   +++++\n"
+           "++++++++++++++++++++++++++++\n\n");
+    printf("        Insert: i\n"
+           "        Search: s\n"
+           "        Update: u\n"
+           "        Print:  p\n"
+           "        Erase:  e\n"
+           "        Quit:   q\n\n");
+}
+
+
+/**
+ * @brief read_line reads the name of the part and stores
+ *        in a string.
+ * @param str the string to be written to
+ * @param n the maximum size of the string
+ */
+int read_line(char str[], int n) {
+    int ch, i = 0;
+
+    while((ch = getchar()) && (ch != '\n' && ch != EOF)) {
+        if (i < n) 
+            str[i++] = ch;
+    }
+    str[i] = '\0';
+    return i;
+    
+}
+
+/**
+ * @brief Looks up a part number in the inventory. If it
+ *        exists, it returns the address of the part;
+ *        otherwise, it returns NULL.
+ * @param void
+ */
 
 struct part *find_part(int number)
 {
@@ -75,14 +117,12 @@ struct part *find_part(int number)
     return NULL;
 }
 
-/*
-** insert: Prompts the user for information a new
-**         part and then inserts the part into the
-**         inventory list; the list remains sorted by
-**         part number. Prints an error message and 
-**         returns prematurely if the part already exists
-**         or space could not be alocated for the part
-*/
+/**
+ * @brief Adds information about a new part gotten to 
+ *        from the user to the inventory if the part
+ *        does not already exist.
+ * @param void
+ */
 void insert(void)
 {
     struct part *cur, *prev, *new_node;
@@ -96,6 +136,7 @@ void insert(void)
 
     printf("Enter part number: ");
     scanf("%d", &new_node->number);
+    fflush(stdin);
 
     for (cur = inventory, prev = NULL;
          cur != NULL && new_node->number > cur->number;
@@ -120,12 +161,13 @@ void insert(void)
         prev->next = new_node;
 }
 
-/*
-** search: Prompts the user to enter a part number, then
-**         looks up the part in the database. If the part
-**         exists, prints the name and quality on hand;
-**         if not, prints an error message.
-*/
+/**
+ * @brief Prompts the user to enter a part number, then
+ *        looks it up in the inventory. If it exists, it
+ *        prints the name and quantity on hand; if not,
+ *        it prints an error message.
+ * @param void
+ */
 void search(void)
 {
     int number;
@@ -143,12 +185,50 @@ void search(void)
         printf("Part not found.\n");
 }
 
-/*
-** update: Prompts the user to enter a part number.
-**         Prints an error message if the part doesn't exist;
-**         otherwise, prompts the user to enter change in
-**         quantity on hand and updates the database.
-*/
+
+/**
+ * @brief erase deletes a part from the inventory list
+ * @param void
+ * @return void
+ */
+void erase(void) {
+    int part_num;
+    struct part *cur, *prev;
+
+    printf("Enter part number: ");
+    scanf("%d", &part_num);
+    
+    for (cur = inventory, prev = NULL; 
+         cur != NULL && cur->number != part_num;
+         prev = cur, cur = cur->next);
+    
+    if (cur == NULL) {
+        printf("Part does not exist!\n");
+        return;
+    }
+    else if (prev == NULL) {
+        inventory = inventory->next;
+        free(cur);
+    }
+    else {
+        prev->next = cur->next;
+        free(cur);
+    }
+    printf("Part deleted\n\n");
+    return;
+}
+
+
+/**
+ * @brief update Prompts the user to enter a part number.
+ *        Prints an error message if the part doesn't 
+ *        exist;
+ *        Otherwise, prompts the user to enter the change
+ *        in quantity on hand and updates the database
+ *        accordingly.
+ * @param void
+ * @return void
+ */
 void update(void)
 {
     int number, change;
@@ -166,32 +246,17 @@ void update(void)
         printf("Part not found.\n");
 }
 
-
-/* 
-** print: Prints a listing of all parts in the database,
-**        showing the part number, part name, and
-**        quantity on hand. Part numbers will appear in
-**        ascending order.
-*/
+/**
+ * @brief Prints a listing of all parts in the database,
+ *        showing the part number, part name and quantity
+ *        on hand. Part numbers will appear in ascending
+ *        order.
+ * @param void
+ */
 void print(void) {
     struct part *p;
     printf("Part Number     Part Name                       "
            "Quantity on Hand\n");
     for (p = inventory; p != NULL; p=p->next)
         printf("%7d         %-25s%11d\n", p->number, p->name, p->on_hand);
-}
-
-/**
- * compare_parts: Compares elements of the invetory 
- * array
- */ 
-int compare_parts(const void *p, const void *q) {
-    if (((struct part*) p) -> number < 
-        ((struct part*) q)->number)
-      return -1;
-    else if (((struct part*)p)->number > 
-        ((struct part *)q)->number)
-      return 1;
-    else
-      return 0;
 }
