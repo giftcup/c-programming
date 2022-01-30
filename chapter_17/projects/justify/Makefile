@@ -10,4 +10,4 @@ word.o: word.c word.h
 line.o: line.c line.h
 	gcc -c line.c
 clean:
-	rm *.o
+	rm *.o justify
