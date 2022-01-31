@@ -2,6 +2,7 @@
 
 #include "line.h"
 #include "word.h"
+#include <stdio.h>
 
 #define MAX_WORD_LEN 20
 
@@ -14,6 +15,7 @@ int main(void)
     for (;;) 
     {
         word_len = read_word(word, MAX_WORD_LEN+1);
+
         if (word_len == 0) 
         {
             flush_line();
