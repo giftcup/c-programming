@@ -5,11 +5,16 @@
 #define MAX_REMIND 50 //max number of reminders
 #define MSG_LEN 60
 
+typedef struct vstring {
+    int len;
+    char chars[];       //flexible array member
+} vstring;
+
 int read_line(char str[], int n);
 
 int main(void)
 {
-    char *reminders[MAX_REMIND];
+    vstring* reminders[MAX_REMIND];
     char day_str[3], msg_str[MSG_LEN+1];
     int day, i, j, num_remind = 0;
 
@@ -29,7 +34,7 @@ int main(void)
         read_line(msg_str, MSG_LEN);
 
         for (i = 00; i < num_remind; i++)
-            if (strcmp(day_str, reminders[i]) < 0)
+            if (strcmp(day_str, reminders[i]->chars) < 0)
                 break;
         for (j = num_remind; j > i; j--)
             reminders[j] = reminders[j-1];
