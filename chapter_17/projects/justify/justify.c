@@ -21,11 +21,13 @@ int main(void)
             flush_line();
             return 0;
         }
-        if (word_len + 1 > space_remaining())
+        if (word_len > space_remaining())
         {
             write_line();
             clear_line();
         }
+        // word_len less than space remaining, add word
+        // to line
         add_word(word);
     }
 }
