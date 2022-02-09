@@ -17,16 +17,21 @@ int num_words =0;
 
 void clear_line(void)
 {
-    Line *tmp = first_word;
+    Line *tmp;
 
     if(first_word == NULL)
         return;
-
-    for (first_word = first_word->next; 
-         tmp != NULL; 
-         tmp = first_word,  first_word = first_word->next
+    
+    // Removing all words from a line
+    for (tmp = first_word->next; tmp != NULL; 
+         first_word = tmp, tmp = tmp->next
         )
-            free(tmp);
+            free(first_word);
+        first_word = NULL;
+    
+    line_len = 0;
+    num_words = 0;
+    
 }
 
 void add_word(const char *word)
@@ -40,7 +45,6 @@ void add_word(const char *word)
 
     strcpy(new_word->word, word);
     new_word->next = NULL;
-    printf("%s ", new_word->word);
 
     if (first_word == NULL) {
         first_word = new_word;
@@ -62,17 +66,18 @@ void write_line(void)
 {
     int extra_spaces, spaces_to_insert, i;
     Line *tmp;
-    // printf("1Here\n");
 
     extra_spaces = MAXA_LINE_LEN - line_len;
     for (tmp = first_word; tmp != NULL; tmp = tmp->next) {
-        // pr intf("2Here\n");
         printf("%s", tmp->word);
 
-        spaces_to_insert = extra_spaces / (num_words - 1);
-        for (i = 0; i <= spaces_to_insert + 1; i++)
+        spaces_to_insert =  num_words / (extra_spaces + 1);
+        if (extra_spaces == 0)
+            spaces_to_insert = 0;
+        
+        for (i = 1; i <= spaces_to_insert + 1; i++)
             putchar(' ');
-        extra_spaces -= spaces_to_insert;
+        extra_spaces += spaces_to_insert;
         num_words--;
     }
     putchar('\n');
