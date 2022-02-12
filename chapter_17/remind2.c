@@ -36,6 +36,7 @@ int main(void)
         for (i = 00; i < num_remind; i++)
             if (strcmp(day_str, reminders[i]->chars) < 0)
                 break;
+        
         for (j = num_remind; j > i; j--)
             reminders[j] = reminders[j-1];
         
