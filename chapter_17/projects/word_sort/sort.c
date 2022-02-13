@@ -19,11 +19,8 @@ void swap(char *word1, char *word2) {
     char *tmp_word;
 
     tmp_word = malloc(sizeof(char) * strlen(word1) + 1);
-    
     strcpy(tmp_word, word1);
-    
     strcpy(word1, word2);
-    
     strcpy(word2, tmp_word);
     
 }
