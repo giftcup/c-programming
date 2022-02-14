@@ -6,7 +6,7 @@
 #include "sort.h"
 
 #define MAX_WORD_LEN 20
-#define MAX_NUM_WORDS 3
+#define MAX_NUM_WORDS 20
 
 int main(void) {
     char *words[MAX_NUM_WORDS];
@@ -24,11 +24,9 @@ int main(void) {
         strcpy(words[num_words], word);
     }
     if (num_words == MAX_NUM_WORDS)
-        printf("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n"
-               "+++++++++++ Sorry, you can't put in more words :( ++++++++++++++\n"
-               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n");
+        printf("\n\n+++++++++++ Sorry, you can't put in more words :( ++++++++++++++\n\n");
 
-    sort(words, num_words);
+    sort(words, num_words, MAX_WORD_LEN);
     printf("In sorted order: ");
     for (j = 0; j < num_words; j++) {
         printf("%s ", words[j]);
