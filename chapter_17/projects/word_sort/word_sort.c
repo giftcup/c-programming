@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "read_word.h"
 #include "sort.h"
+#include "qsortx.h"
 
 #define MAX_WORD_LEN 20
 #define MAX_NUM_WORDS 20
@@ -26,6 +27,7 @@ int main(void) {
     if (num_words == MAX_NUM_WORDS)
         printf("\n\n+++++++++++ Sorry, you can't put in more words :( ++++++++++++++\n\n");
 
+    qsortx(words, num_words, MAX_WORD_LEN);
     sort(words, num_words, MAX_WORD_LEN);
     printf("In sorted order: ");
     for (j = 0; j < num_words; j++) {
