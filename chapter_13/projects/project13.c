@@ -7,6 +7,7 @@
 
 int read_line(char *message, int n);
 void encrypt(char *message, int shift);
+void decrypt(char *message, int shift);
 
 int main(void)
 {
@@ -33,6 +34,16 @@ void encrypt(char *message, int shift)
             message[j] = ((message[j] - 'A') + shift) % 26 + 'A';
         else if (message[j] >= 'a' && message[j] <= 'z')
             message[j] = ((message[j] - 'a') + shift) % 26 + 'a';
+    }
+}
+
+void decrypt(char *message, int shift) {
+    for (int j = 0; j < strlen(message); j++) 
+    {
+        if (message[j] >= 'A' && message[j] <= 'Z')
+            message[j] = ((message[j] - 'A') - shift) % 26 + 'A';]
+        else if (message[j] >= 'a' && message[j] <= 'z')
+            message[j] = ((message[j] - 'a') - shift) % 26 + 'a';\
     }
 }
 
